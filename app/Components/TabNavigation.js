@@ -1,0 +1,95 @@
+import {View, Text} from 'react-native';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+import {appColors} from '../utils/appColors';
+import Login from '../Screens/Login';
+import SignUp from '../Screens/SignUp';
+import Home from '../Screens/Home';
+import ProductDetails from '../Screens/ProductDetails';
+import Cart from '../Screens/Cart';
+
+const Tab = createBottomTabNavigator();
+
+const TabNavigation = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarHideOnKeyboard: true,
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            backgroundColor: 'white',
+            position: 'absolute',
+            // bottom: 30,
+            // marginHorizontal: 20,
+            height: 60,
+            // borderRadius: 10,
+            shadowColor: '#000',
+            shadowOpacity: 0.06,
+            shadowOffset: {
+              width: 10,
+              height: 10,
+            },
+          },
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <Icon
+                name="home"
+                size={25}
+                color={focused ? appColors.primary : 'gray'}
+              />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Login"
+          component={Login}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <Icon
+                name="ios-person"
+                size={25}
+                color={focused ? appColors.primary : 'gray'}
+              />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{
+            tabBarButton: props => null,
+          }}
+        />
+
+        <Tab.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{
+            tabBarButton: props => null,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
+        <Tab.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            tabBarButton: props => null,
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default TabNavigation;
