@@ -1,23 +1,20 @@
-import { createStore, applyMiddleware } from "redux"
-import createSagaMiddleware from "redux-saga"
-import AsyncStorage from '@react-native-community/async-storage';  
-import rootSaga from "./sagas"
-import rootReducer from "./reducer"
-import { persistStore, persistReducer } from 'redux-persist'
+import {configureStore} from '@reduxjs/toolkit';
+import productReducer from './slices/productsapi';
+import cartReducer from '../redux/slices/CartSlice';
+import cryptoReducer from '../redux/slices/CryptoPriceapi';
+import selectCoinReducer from '../redux/slices/selectedCoinSlice';
 
-const sagaMiddleware = createSagaMiddleware()
-const persistConfig = {
-    key: 'root',
-    storage: AsyncStorage,
-    //blacklist:[ 'wishList'/*  'cart' */] //Add reducer if you don`t want to presist it
-  }
-const middleWares = [sagaMiddleware];
-
-//1
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-const store = createStore(persistedReducer, applyMiddleware(...middleWares))
-let persistor = persistStore(store)
-sagaMiddleware.run(rootSaga)
-
-export default {store,persistor}
+const Store = configureStore({
+  reducer: {
+    productReducer,
+    cart: cartReducer,
+    crypto: cryptoReducer,
+    coin: selectCoinReducer,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
+});
+export default Store;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image, Pressable} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import Container from '../Components/Container';
@@ -9,38 +9,61 @@ import BottomButtons from '../Components/BottomButtons';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Feather from 'react-native-vector-icons/Feather';
 import CheckOutItem from '../Components/CheckOutItem';
-
-import {APP_CURRENY} from '../utils/appConfig';
 import Empty from '../Components/Empty';
+import {useDispatch, useSelector} from 'react-redux';
+import {removeFromCart, getTotalPrice} from '../redux/slices/CartSlice';
 
-function Cart({removeFromCart$, cart: {cartItems}, navigation}) {
-  // const getAmount = () => {
-  //   let amount = 0;
-  //   cartItems?.map(item => {
-  //     const {price} = item;
-  //     amount += Number(price);
-  //   });
-  //   return `${APP_CURRENY.symbol} ${amount}`;
-  // };
-  // const onDeletePress = item => {
-  //   removeFromCart$(item?.name);
-  // };
+function Cart({navigation}) {
+  const cart = useSelector(state => state.cart);
+  const cryptoRate = useSelector(state => state.coin.cryptoRate);
 
-  // const ItemCard = ({item}) => {
-  //   const {title, description, price, image} = item;
-  //   return <CheckOutItem name={title} image={image} price={price} />;
-  // };
+  const dispatch = useDispatch();
+
+  const onDeletePress = item => {
+    dispatch(removeFromCart(item._id));
+  };
+
+  const totalPrice = () => {
+    let totalPrice = 0;
+    cart.cartItems.forEach(item => {
+      totalPrice += item.price * item.quantity;
+    });
+    return `${(totalPrice / cryptoRate).toFixed(5)}`;
+  };
+
+  const ItemCard = ({item}) => {
+    const {product_name, price, product_img, quantity, _id} = item;
+    return (
+      <CheckOutItem
+        name={product_name}
+        image={product_img}
+        price={price}
+        quantity={quantity}
+        id={_id}
+      />
+    );
+  };
+
   return (
     <>
       <Container>
-        <View style={{flex: 1, paddingVertical: scale(30)}}>
+        <View style={{flex: 1, paddingVertical: scale(20)}}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Feather
+              name="chevron-left"
+              size={scale(25)}
+              color={appColors.black}
+            />
+          </Pressable>
           <SwipeListView
             ListEmptyComponent={() => <Empty label={'Your Cart is empty'} />}
             showsVerticalScrollIndicator={false}
-            keyExtractor={item => `${item.name}_${new Date().getTime()}`}
+            keyExtractor={item => `${item._id}`}
             ItemSeparatorComponent={() => <View style={{padding: scale(10)}} />}
-            data={cartItems || []}
-            renderItem={({item, index}) => <ItemCard item={item} />}
+            data={cart.cartItems || []}
+            renderItem={({item, index}) => (
+              <ItemCard item={item} index={index} />
+            )}
             renderHiddenItem={(data, rowMap) => (
               <View
                 style={{
@@ -49,26 +72,6 @@ function Cart({removeFromCart$, cart: {cartItems}, navigation}) {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                <Pressable
-                  onPress={() => onAddToWishListPress(data?.item)}
-                  style={{
-                    left: scale(-15),
-                    flex: scale(0.3),
-                    backgroundColor: appColors.yellow,
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Feather
-                    name={'star'}
-                    size={scale(25)}
-                    color={
-                      isInWishList(data?.item)
-                        ? appColors.primary
-                        : appColors.white
-                    }
-                  />
-                </Pressable>
                 <Pressable
                   onPress={() => onDeletePress(data?.item)}
                   style={{
@@ -94,20 +97,13 @@ function Cart({removeFromCart$, cart: {cartItems}, navigation}) {
       </Container>
       <View style={{backgroundColor: 'red', bottom: scale(-15)}}>
         <BottomButtons
-          onPress={() => navigation.navigate('Checkout')}
+          onPress={() => navigation.navigate('CheckOut', {totalPrice})}
           buttonLabel={'CHECKOUT'}
-          price={getAmount()}
+          price={totalPrice()}
         />
       </View>
     </>
   );
 }
-/* 
-const mapStateToProps = (state) => ({
-  cartItems : state.cart.cartItems
-});
-const mapDispatchToProps = { 
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(index); */
 export default Cart;

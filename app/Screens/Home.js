@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-import {categoriesList, bestSellersList} from '../utils/MockData';
+import {categoriesList} from '../utils/MockData';
 import Container from '../Components/Container';
 import SearchBox from '../Components/SearchBox';
 import {scale} from 'react-native-size-matters';
@@ -11,15 +11,31 @@ import Label from '../Components/Label';
 import ProductCard from '../Components/ProductCard';
 
 import TouchableRipple from 'react-native-touch-ripple';
-import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux';
+import {getproducts} from '../redux/slices/productsapi';
+import {getCryptoPrice} from '../redux/slices/CryptoPriceapi';
+import {getRate} from '../redux/slices/selectedCoinSlice';
+import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 
-const Home = ({getProducts$, getProductsList$, addToCart$, navigation}) => {
-  const [products, setProducts] = useState([]);
+const Home = ({getProducts$, navigation}) => {
+  const products = useSelector(state => state.productReducer.products);
+  const cryptoprices = useSelector(state => state.crypto.cryptoPrices);
+  const selectCoin = useSelector(state => state.coin.selectedCoin);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios
-      .get('https://fakestoreapi.com/products?limit=7')
-      .then(res => setProducts(res.data));
-  }, []);
+    dispatch(getproducts());
+    dispatch(getCryptoPrice());
+  }, [dispatch]);
+
+  useEffect(() => {
+    cryptoprices.map(item => {
+      if (selectCoin === item.name) {
+        dispatch(getRate(item.rate));
+      }
+    });
+  }, [selectCoin]);
 
   const RenderTitle = ({heading, rightLabel}) => {
     return <TitleComp heading={heading} rightLabel={rightLabel} />;
@@ -31,9 +47,14 @@ const Home = ({getProducts$, getProductsList$, addToCart$, navigation}) => {
 
   return (
     <Container isScrollable style={styles.container}>
-      <SearchBox onFoucs={() => navigation.navigate('Search')} />
+      <SearchBox
+        onFoucs={() => navigation.navigate('Search')}
+        navigation={navigation}
+      />
       <View style={{paddingVertical: scale(15)}}>
-        <RenderTitle heading="Categories" />
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <RenderTitle heading="Categories" />
+        </View>
         <FlatList
           style={{marginTop: scale(40)}}
           showsHorizontalScrollIndicator={false}
@@ -71,9 +92,10 @@ const Home = ({getProducts$, getProductsList$, addToCart$, navigation}) => {
           }}
         />
       </View>
+
       <View>
         <View style={{paddingVertical: scale(25)}}>
-          <RenderTitle heading="Best Selling" rightLabel="See All" />
+          <RenderTitle heading="Best Selling" />
         </View>
 
         <FlatList

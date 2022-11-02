@@ -10,6 +10,9 @@ import SignUp from '../Screens/SignUp';
 import Home from '../Screens/Home';
 import ProductDetails from '../Screens/ProductDetails';
 import Cart from '../Screens/Cart';
+import CheckOut from '../Screens/Checkout/CheckOut';
+import CheckOutAddress from '../Screens/Checkout/CheckoutAddress';
+import CheckOutPayment from '../Screens/Checkout/CheckoutPayment';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,6 +74,14 @@ const TabNavigation = () => {
             tabBarButton: props => null,
           }}
         />
+        <Tab.Screen
+          name="CheckOut"
+          component={CheckOut}
+          options={{
+            tabBarButton: props => null,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
 
         <Tab.Screen
           name="ProductDetails"
@@ -85,6 +96,23 @@ const TabNavigation = () => {
           component={Cart}
           options={{
             tabBarButton: props => null,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
+        <Tab.Screen
+          name="CheckOutAddress"
+          component={CheckOutAddress}
+          options={{
+            tabBarButton: props => null,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
+        <Tab.Screen
+          name="CheckOutPayment"
+          component={CheckOutPayment}
+          options={{
+            tabBarButton: props => null,
+            tabBarStyle: {display: 'none'},
           }}
         />
       </Tab.Navigator>

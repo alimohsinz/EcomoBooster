@@ -6,62 +6,28 @@ import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/CustomButton';
 import Label from '../Components/Label';
 import {appColors, shadow} from '../utils/appColors';
+import axios from 'axios';
 
-import {AlertHelper} from '../utils/AlertHelper';
-import {CommonActions} from '@react-navigation/native';
-
-// import ReduxWrapper from '../utils/ReduxWrapper';
-
-function Login({getProductsList$, loginUser$, navigation}) {
-  const [credentials, setCredentials] = useState({});
+function Login({navigation}) {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [isloading, setisloading] = useState(false);
 
   const onLogin = async () => {
-    //auth().signOut()
-    const {email, password} = credentials;
-
-    try {
-      if (email && password) {
-        setisloading(true);
-        const {user, additionalUserInfo} =
-          await auth().signInWithEmailAndPassword(
-            email?.toLowerCase(),
-            password?.toLowerCase(),
-          );
-        console.log(user);
-        if (user?.uid) {
-          if (additionalUserInfo?.isNewUser) {
-            const {providerId, profile} = additionalUserInfo;
-            //create new user and login
-            await writeData('users', {
-              email: user?.email,
-              name: user?.displayName,
-              uid: user?.uid,
-              photoURL: user?.photoURL,
-              providerId,
-              profile,
-            });
-          }
-          loginUser$({
-            email: user?.email,
-            name: user?.displayName ? user?.displayName : 'User',
-            uid: user?.uid,
-          });
-          getProductsList$();
-          AlertHelper.show('success', 'Welcome to EcomoBooster');
+    if (userName && password) {
+      setisloading(true);
+      await axios
+        .post('https://drab-cyan-fossa-kilt.cyclic.app/users/login', {
+          username: userName,
+          password: password,
+        })
+        .then(res => {
+          console.log(res);
+          setisloading(false);
           navigation.navigate('Home');
-        }
-      } else {
-        setisloading(false);
-        AlertHelper.show('error', 'Email and password is required!!');
-      }
-    } catch (error) {
-      AlertHelper.show('error', 'Something went woring');
+        })
+        .catch(error => console.log(error));
     }
-  };
-
-  const onChangeText = (name, text) => {
-    setCredentials({...credentials, [name]: text});
   };
 
   return (
@@ -97,7 +63,7 @@ function Login({getProductsList$, loginUser$, navigation}) {
         </View>
         <View style={{paddingVertical: scale(15)}}>
           <Label
-            text="Sign in to Continue"
+            text="Log in to Continue"
             style={{
               fontSize: scale(16),
               //fontWeight: '500',
@@ -107,19 +73,17 @@ function Login({getProductsList$, loginUser$, navigation}) {
         </View>
         <View style={{paddingVertical: scale(10)}}>
           <CustomInput
-            onChangeText={text => onChangeText('email', text)}
-            keyboardType="email-address"
-            label="Email"
-            placeholder="ali@.com"
+            onChangeText={setUserName}
+            label="UserName"
+            placeholder="alimohsin"
           />
         </View>
         <View style={{paddingVertical: scale(10)}}>
           <CustomInput
-            onChangeText={text => onChangeText('password', text)}
+            onChangeText={setPassword}
             secureTextEntry
             label="Password"
             placeholder="Password"
-            // value="*******"
           />
         </View>
         <Pressable
@@ -144,8 +108,7 @@ function Login({getProductsList$, loginUser$, navigation}) {
           labelStyle={{fontWeight: '500'}}
         />
         <CustomButton
-          isLoading={isloading}
-          onPress={onLogin}
+          onPress={() => navigation.navigate('SignUp')}
           label="Sign Up"
           labelStyle={{fontWeight: '500'}}
         />

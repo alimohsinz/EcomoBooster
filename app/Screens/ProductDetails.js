@@ -1,52 +1,47 @@
-import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  LogBox,
+  StyleSheet,
+  ImageBackground,
+  Pressable,
+} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import Container from '../Components/Container';
 import Label from '../Components/Label';
-
 import {appColors} from '../utils/appColors';
 import Feather from 'react-native-vector-icons/Feather';
 import TitleComp from '../Components/TitleComp';
-
 import ReviewComp from '../Components/ReviewComp';
 import BottomButtons from '../Components/BottomButtons';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart} from '../redux/slices/CartSlice';
 
-function ProductDetails({
-  // cart: {cartItems},
+function ProductDetails({navigation, route: {params}}) {
+  const cryptoRate = useSelector(state => state.coin.cryptoRate);
+  const dispatch = useDispatch();
 
-  addToCart$,
-  navigation,
-  route: {params},
-}) {
-  const {
-    id,
-    title,
-    name,
-    description,
-    detail,
-    price,
-    size,
-    color,
-    image,
-    isFav,
-    rating,
-  } = params.item;
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   const onAddToCart = () => {
-    addToCart$({...params.item, quantity: 1});
+    dispatch(addToCart(params.item));
   };
+
   const _renderBottom = () => {
     return (
       <BottomButtons
         onPress={() => {
-          // onAddToCart();
+          onAddToCart();
           navigation.navigate('Cart');
         }}
-        price={price}
+        price={(params.item.price / cryptoRate).toFixed(5)}
         buttonLabel="ADD"
       />
     );
   };
+
   return (
     <>
       <Container bodyStyle={{paddingHorizontal: scale(0)}} isScrollable>
@@ -54,7 +49,7 @@ function ProductDetails({
           <ImageBackground
             style={{height: scale(400), width: '100%'}}
             resizeMode="cover"
-            source={{uri: image}}>
+            source={{uri: params.item.product_img}}>
             <View
               style={{
                 marginTop: scale(40),
@@ -76,7 +71,7 @@ function ProductDetails({
         <View style={{paddingHorizontal: scale(20), marginBottom: scale(100)}}>
           <View style={{paddingVertical: scale(20)}}>
             <Label
-              text={title}
+              text={params.item.product_name}
               style={{fontWeight: '700', fontSize: scale(30)}}
             />
           </View>
@@ -87,26 +82,13 @@ function ProductDetails({
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-            }}>
-            <View style={styles.sizeContainer}>
-              <Label text="Size" style={{fontSize: scale(15)}} />
-              <Label
-                text="XL"
-                style={{fontWeight: '700', fontSize: scale(15)}}
-              />
-            </View>
+            }}></View>
 
-            <View style={styles.sizeContainer}>
-              <Label text="Colour" style={{fontSize: scale(15)}} />
-              <View style={styles.itemColor} />
-            </View>
-          </View>
-
-          <View style={{paddingVertical: scale(20)}}>
+          <View style={{paddingVertical: scale(5)}}>
             <TitleComp heading={'Details'} />
             <View style={{paddingVertical: scale(20)}}>
               <Label
-                text={description}
+                text={params.item.description}
                 style={{fontSize: scale(14), lineHeight: scale(25)}}
               />
             </View>
@@ -127,13 +109,6 @@ function ProductDetails({
   );
 }
 
-// const mapStateToProps = (state) => ({
-//    cartItems : state.cart.cartItems
-// });
-// const mapDispatchToProps = {
-//   addToCart$: addToCart,
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(index);
 export default ProductDetails;
 
 const styles = StyleSheet.create({

@@ -6,23 +6,28 @@ import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/CustomButton';
 import Label from '../Components/Label';
 import {appColors, shadow} from '../utils/appColors';
-import Feather from 'react-native-vector-icons/Feather';
 
-import {AlertHelper} from '../utils/AlertHelper';
+import axios from 'axios';
+
 export default function SignUp({navigation}) {
-  const [userInfo, setUserInfo] = useState({});
-  const onChnage = (name, text) => {
-    setUserInfo({...userInfo, [name]: text});
-  };
+  const [userName, SetUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isloading, setisloading] = useState(false);
 
   const onSignUp = async () => {
-    const {email, password} = userInfo;
-    const user = await auth().createUserWithEmailAndPassword(email, password);
-    if (user?.user.uid) {
-      AlertHelper.show('success', 'Signup Success, Welcome to EcomoBooster');
-      navigation.navigate('Home');
-    } else {
-      AlertHelper.show('error', 'Signup Failed, Please Retry');
+    if (userName && email && password) {
+      setisloading(true);
+      await axios
+        .post('https://drab-cyan-fossa-kilt.cyclic.app/users/signup', {
+          username: userName,
+          email: email,
+          password: password,
+        })
+        .then(() => {
+          navigation.navigate('Login');
+        })
+        .catch(error => console.log(error));
     }
   };
   return (
@@ -51,35 +56,35 @@ export default function SignUp({navigation}) {
             text="Sign in to Continue"
             style={{
               fontSize: scale(16),
-              //fontWeight: '500',
               color: appColors.darkGray,
             }}
           />
         </View>
         <View style={{paddingVertical: scale(10)}}>
           <CustomInput
-            onChangeText={text => onChnage('name', text)}
-            label="Name"
-            placeholder="Ali"
+            onChangeText={userName}
+            label="UserName"
+            placeholder="alimohsin"
           />
         </View>
         <View style={{paddingVertical: scale(10)}}>
           <CustomInput
-            onChangeText={text => onChnage('email', text)}
+            onChangeText={setEmail}
             keyboardType="email-address"
             label="Email"
-            placeholder="ali@gmail.com"
+            placeholder="example@gmail.com"
           />
         </View>
         <View style={{paddingVertical: scale(10)}}>
           <CustomInput
-            onChangeText={text => onChnage('password', text)}
+            onChangeText={setPassword}
             secureTextEntry
             label="Password"
             placeholder="Password"
           />
         </View>
         <CustomButton
+          isLoading={isloading}
           onPress={onSignUp}
           label="Sign up"
           labelStyle={{fontWeight: '500'}}

@@ -1,7 +1,15 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, LogBox} from 'react-native';
 import TabNavigation from './app/Components/TabNavigation';
+import {Provider} from 'react-redux';
+import Store from './app/redux/Store';
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
-  return <TabNavigation />;
+  return (
+    <Provider store={Store}>
+      <TabNavigation />
+    </Provider>
+  );
 }
