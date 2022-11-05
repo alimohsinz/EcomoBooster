@@ -16,7 +16,7 @@ import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
 import { useInterpolateConfig } from 'react-native-reanimated';
-
+    
 // import { useWalletConnect } from '@walletconnect/react-native-dapp';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import Web3 from 'web3';
@@ -102,7 +102,7 @@ export default function CheckoutPayment({navigation, route}) {
                 }}
                 onPress={connectWallet}
             />}
-            {!!connector.connected && console.log("wallet")} */}
+            {!!connector.connected && console.log("wallet connected")} */}
           <CustomButton onPress={orderPressed} label="PLACE ORDER" />
           <CustomButton label="RELEASE PAYMENT" />
         </View>
