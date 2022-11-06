@@ -3,6 +3,8 @@ import {Text, View, LogBox} from 'react-native';
 import TabNavigation from './app/Components/TabNavigation';
 import {Provider} from 'react-redux';
 import Store from './app/redux/store';
+import './shim';
+
 
 LogBox.ignoreAllLogs();
 
