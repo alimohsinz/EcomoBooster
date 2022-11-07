@@ -17,12 +17,11 @@ function Login({navigation}) {
     if (userName && password) {
       setisloading(true);
       await axios
-        .post('https://drab-cyan-fossa-kilt.cyclic.app/users/login', {
+        .post('/users/login', {
           username: userName,
           password: password,
         })
         .then(res => {
-          console.log(res);
           setisloading(false);
           navigation.navigate('Home');
         })

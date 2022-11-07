@@ -56,7 +56,7 @@ const Home = ({getProducts$, navigation}) => {
           <RenderTitle heading="Categories" />
         </View>
         <FlatList
-          style={{marginTop: scale(40)}}
+          style={{marginTop: scale(30)}}
           showsHorizontalScrollIndicator={false}
           horizontal
           data={categoriesList}

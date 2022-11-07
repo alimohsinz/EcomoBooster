@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,36 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
+import {useSelector} from 'react-redux';
 
 export default function CheckoutPayment({navigation, route}) {
+  const cartItems = useSelector(state => state.cart.cartItems);
+  const {totalPrice} = route.params;
+
+  const [data, setData] = useState({
+    email: 'alimohsin@gmail.com',
+    totalPrice: totalPrice,
+    category: [],
+  });
+
+  useEffect(() => {
+    let items = cartItems.map(item => {
+      return {
+        price: item.price,
+        productid: item.productid,
+        quantity: item.quantity,
+      };
+    });
+    setData({...data, category: items});
+  }, []);
+  console.log(data.totalPrice);
+  console.log(data);
   const orderPressed = () => {
     axios
-      .post('/user', {
-        firstName: 'Fred',
-        lastName: 'Flintstone',
+      .post('/orderr/order', {
+        productdetail: data.category,
+        totalBill: data.totalPrice,
+        email: data.email,
       })
       .then(function (response) {
         console.log(response);

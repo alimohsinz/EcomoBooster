@@ -48,11 +48,13 @@ export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
   return (
     <View
       style={{
+        marginTop: scale(5),
         flexDirection: 'row',
       }}>
       <View
         style={{
           flex: 1,
+
           paddingHorizontal: scale(20),
           borderRadius: scale(20),
           alignItems: 'center',
@@ -120,7 +122,7 @@ export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
             }}>
             <Button
               onPress={etherPress}
-              title="Ether"
+              title="Ether BUtton"
               color={appColors.primary}
             />
           </View>

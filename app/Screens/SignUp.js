@@ -19,7 +19,7 @@ export default function SignUp({navigation}) {
     if (userName && email && password) {
       setisloading(true);
       await axios
-        .post('https://drab-cyan-fossa-kilt.cyclic.app/users/signup', {
+        .post('/users/signup', {
           username: userName,
           email: email,
           password: password,
