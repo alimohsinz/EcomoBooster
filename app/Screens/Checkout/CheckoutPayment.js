@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -15,8 +15,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
-
+import Web3 from 'web3';
 export default function CheckoutPayment({navigation, route}) {
+
+  useEffect(()=>{
+    const func=()=>{
+      const web3 = new Web3('https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka');
+      const newWallet = web3.eth.accounts.wallet.create(1);
+      const newAccount = newWallet[0];
+      console.log(newAccount);
+    }
+    func();
+  },[])
   const orderPressed = () => {
     axios
       .post('/user', {
