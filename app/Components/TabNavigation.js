@@ -13,6 +13,7 @@ import Cart from '../Screens/Cart';
 import CheckOut from '../Screens/Checkout/CheckOut';
 import CheckOutAddress from '../Screens/Checkout/CheckoutAddress';
 import CheckOutPayment from '../Screens/Checkout/CheckoutPayment';
+import {scale} from 'react-native-size-matters';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,10 +28,11 @@ const TabNavigation = () => {
           tabBarStyle: {
             backgroundColor: 'white',
             position: 'absolute',
-            // bottom: 30,
-            // marginHorizontal: 20,
-            height: 60,
-            // borderRadius: 10,
+            bottom: scale(10),
+            marginHorizontal: 10,
+            height: 50,
+
+            borderRadius: 15,
             shadowColor: '#000',
             shadowOpacity: 0.06,
             shadowOffset: {

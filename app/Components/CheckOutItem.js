@@ -33,14 +33,14 @@ export default function CheckOutItem({
       style={{
         flexDirection: 'row',
         backgroundColor: noBg ? 'transparent' : appColors.lightGray,
-        //borderRadius: scale(  5 )
+        borderRadius: scale(15),
       }}>
       <Image
         style={{
           height: scale(130),
           width: scale(130),
-          borderRadius: scale(noBg ? 5 : 0),
-          //backgroundColor:appColors.darkGray
+          borderRadius: scale(15),
+          backgroundColor: appColors.darkGray,
         }}
         source={{uri: image}}
       />

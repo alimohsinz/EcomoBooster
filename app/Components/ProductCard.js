@@ -14,45 +14,55 @@ export default function ProductCard({navigation, item}) {
   const dispatch = useDispatch();
 
   return (
-    <Pressable
-      onPress={() => navigation.navigate('ProductDetails', {item})}
-      style={{}}>
-      <View
-        style={{
-          height: scale(200),
-          width: scale(160),
-          //backgroundColor:appColors.lightGray
-        }}>
-        <Image
-          resizeMode="contain"
-          style={{height: scale(200), width: scale(180)}}
-          source={{uri: product_img}}
-        />
-      </View>
-      <View style={{paddingVertical: scale(3)}}>
-        <Label
-          text={product_name?.substring(0, 20)}
-          style={{fontSize: scale(18), fontWeight: '500'}}
-        />
-      </View>
-
-      <View style={{paddingVertical: scale(2)}}>
-        <Label
-          text={description?.substring(0, 24)}
-          style={{fontSize: scale(13), color: appColors.darkGray}}
-        />
-      </View>
-
-      <View style={{paddingVertical: scale(5)}}>
-        <Label
-          text={(price / cryptoRate).toFixed(5)}
+    <View
+      style={{
+        backgroundColor: appColors.lightGray,
+        borderRadius: scale(15),
+      }}>
+      <Pressable
+        onPress={() => navigation.navigate('ProductDetails', {item})}
+        style={{}}>
+        <View
           style={{
-            fontSize: scale(18),
-            color: appColors.primary,
-            fontWeight: '500',
-          }}
-        />
-      </View>
-    </Pressable>
+            height: scale(200),
+            width: scale(160),
+            // backgroundColor: appColors.lightGray,
+          }}>
+          <Image
+            resizeMode="contain"
+            style={{
+              height: scale(200),
+              width: scale(160),
+              borderRadius: scale(15),
+            }}
+            source={{uri: product_img}}
+          />
+        </View>
+        <View style={{padding: scale(3)}}>
+          <Label
+            text={product_name?.substring(0, 20)}
+            style={{fontSize: scale(18), fontWeight: '500'}}
+          />
+
+          <View style={{paddingVertical: scale(2)}}>
+            <Label
+              text={description?.substring(0, 24)}
+              style={{fontSize: scale(13), color: appColors.darkGray}}
+            />
+          </View>
+
+          <View style={{paddingVertical: scale(5)}}>
+            <Label
+              text={(price / cryptoRate).toFixed(4)}
+              style={{
+                fontSize: scale(18),
+                color: appColors.primary,
+                fontWeight: '500',
+              }}
+            />
+          </View>
+        </View>
+      </Pressable>
+    </View>
   );
 }

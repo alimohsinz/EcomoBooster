@@ -56,7 +56,7 @@ const Home = ({getProducts$, navigation}) => {
           <RenderTitle heading="Categories" />
         </View>
         <FlatList
-          style={{marginTop: scale(30)}}
+          style={{marginTop: scale(15)}}
           showsHorizontalScrollIndicator={false}
           horizontal
           data={categoriesList}
@@ -94,7 +94,7 @@ const Home = ({getProducts$, navigation}) => {
       </View>
 
       <View>
-        <View style={{paddingVertical: scale(25)}}>
+        <View style={{paddingBottom: scale(20), paddingTop: scale(8)}}>
           <RenderTitle heading="Best Selling" />
         </View>
 

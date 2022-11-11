@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {useSelector, useDispatch} from 'react-redux';
 import {changeCoin} from '../redux/slices/selectedCoinSlice';
 import axios from 'axios';
+import Badge from './Badge';
 
 export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
   const dispatch = useDispatch();
@@ -96,7 +97,7 @@ export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
           onPress={pressCrypto}
           style={{
             borderRadius: scale(20),
-            width: scale(55),
+            width: scale(60),
             height: scale(40),
             backgroundColor: appColors.primary,
             justifyContent: 'center',
@@ -112,9 +113,12 @@ export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
         </Pressable>
         <View
           style={{
-            backgroundColor: '#04AA6D' /* Green background */,
             flexDirection: 'column',
             display: display,
+            marginTop: scale(40),
+            marginLeft: scale(5),
+            position: 'absolute',
+            zIndex: 1,
           }}>
           <View
             style={{
@@ -122,7 +126,7 @@ export default function SearchBox({autoFocus, onFoucs, rightIcon, navigation}) {
             }}>
             <Button
               onPress={etherPress}
-              title="Ether BUtton"
+              title="Ethr"
               color={appColors.primary}
             />
           </View>
