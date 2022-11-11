@@ -21,9 +21,15 @@ export default function CheckoutPayment({navigation, route}) {
   useEffect(()=>{
     const func=()=>{
       const web3 = new Web3('https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka');
+      try{
       const newWallet = web3.eth.accounts.wallet.create(1);
-      const newAccount = newWallet[0];
-      console.log(newAccount);
+      console.log(newWallet);
+    }
+      catch(err){
+        console.log("err",err);
+      }
+      //const newAccount = newWallet[0];
+      //console.log(newAccount);
     }
     func();
   },[])
