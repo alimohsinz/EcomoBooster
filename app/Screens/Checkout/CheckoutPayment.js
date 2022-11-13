@@ -16,6 +16,7 @@ import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
 import Web3 from 'web3';
+import WalletConnectProvider from "@walletconnect/web3-provider";
 export default function CheckoutPayment({navigation, route}) {
 
   useEffect(()=>{
