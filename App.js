@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import Store from './app/redux/store';
 
 LogBox.ignoreAllLogs();
-
 export default function App() {
   return (
     <Provider store={Store}>
