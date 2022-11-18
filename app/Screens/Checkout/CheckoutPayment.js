@@ -43,6 +43,7 @@ export default function CheckoutPayment({navigation, route}) {
 const newWallet = web3.eth.accounts.wallet.create(1);
 const newAccount = newWallet[0];
 console.log(newAccount);
+//ali 
   const orderPressed = () => {
     axios
       .post('/user', {

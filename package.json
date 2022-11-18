@@ -22,16 +22,21 @@
     "@react-navigation/stack": "^6.2.2",
     "@reduxjs/toolkit": "^1.8.6",
     "@tradle/react-native-http": "^2.0.0",
+    "assert": "^1.1.1",
     "axios": "^0.27.2",
     "base-64": "^1.0.0",
     "browserify-zlib": "^0.1.4",
     "buffer": "^4.9.1",
+    "console-browserify": "^1.1.0",
+    "constants-browserify": "^1.0.0",
     "dns.js": "^1.0.1",
+    "domain-browser": "^1.1.1",
     "events": "^1.1.1",
     "https-browserify": "~0.0.0",
     "node-libs-browser": "^2.2.1",
     "path-browserify": "^0.0.0",
     "punycode": "^1.4.1",
+    "querystring-es3": "^0.2.1",
     "react": "18.0.0",
     "react-native": "0.69.4",
     "react-native-axios": "^0.17.1",
@@ -60,6 +65,7 @@
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
     "timers-browserify": "^1.4.2",
+    "tty-browserify": "^0.0.0",
     "url": "~0.10.1",
     "util": "^0.10.4",
     "vm-browserify": "0.0.4",
@@ -94,7 +100,6 @@
     "zlib": "browserify-zlib",
     "console": "console-browserify",
     "constants": "constants-browserify",
-    "crypto": "react-native-crypto",
     "dns": "dns.js",
     "domain": "domain-browser",
     "path": "path-browserify",
@@ -103,7 +108,8 @@
     "dgram": "react-native-udp",
     "timers": "timers-browserify",
     "tty": "tty-browserify",
-    "tls": false
+    "tls": false,
+    "crypto": "react-native-crypto"
   },
   "browser": {
     "net": "react-native-tcp",
@@ -120,7 +126,6 @@
     "zlib": "browserify-zlib",
     "console": "console-browserify",
     "constants": "constants-browserify",
-    "crypto": "react-native-crypto",
     "dns": "dns.js",
     "domain": "domain-browser",
     "path": "path-browserify",
@@ -129,6 +134,7 @@
     "dgram": "react-native-udp",
     "timers": "timers-browserify",
     "tty": "tty-browserify",
-    "tls": false
+    "tls": false,
+    "crypto": "react-native-crypto"
   }
 }
