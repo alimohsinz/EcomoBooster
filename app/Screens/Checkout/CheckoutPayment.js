@@ -15,15 +15,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
-import { useInterpolateConfig } from 'react-native-reanimated';
-    
-// import { useWalletConnect } from '@walletconnect/react-native-dapp';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useInterpolateConfig} from 'react-native-reanimated';
+//import Walletconnect from '../Checkout/web3/Walletconnect';
+//import WalletConnectProvider from '@walletconnect/react-native-dapp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Web3 from 'web3';
-
-
+const SCHEME_FROM_APP_JSON = 'walletconnect-ecomo';
 export default function CheckoutPayment({navigation, route}) {
-
   // const connector = useWalletConnect();
   // const [message, setMessage] = React.useState<string>('Loading...');
 
@@ -39,10 +37,12 @@ export default function CheckoutPayment({navigation, route}) {
   // const walletconnection=()=>{
 
   // }
-  const web3 = new Web3('https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka');
-const newWallet = web3.eth.accounts.wallet.create(1);
-const newAccount = newWallet[0];
-console.log(newAccount);
+  const web3 = new Web3(
+    'https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka',
+  );
+  const newWallet = web3.eth.accounts.wallet.create(1);
+  const newAccount = newWallet[0];
+  console.log(newAccount);
   const orderPressed = () => {
     axios
       .post('/user', {
@@ -54,7 +54,8 @@ console.log(newAccount);
       })
       .catch(function (error) {
         console.log(error);
-      });useInterpolateConfig
+      });
+    useInterpolateConfig;
   };
   return (
     <Container
@@ -93,21 +94,21 @@ console.log(newAccount);
             </TouchableOpacity>
           </View>
         </View>
-       
+
         <View style={{paddingBottom: 50}}>
-          {/* <CustomButton onPress={walletconnection} label="CONNECT WALLET" /> */}
-          {/* {!connector.connected &&
-            <CustomButton 
-                label={"Connet Wallet"}
-                customContainerStyle={{
-                    width:80 +"%",
-                    marginLeft: 40,
-                    marginTop:50,
-                    backgroundColor: COLORS.primary
-                }}
-                onPress={connectWallet}
-            />}
-            {!!connector.connected && console.log("wallet connected")} */}
+          <WalletConnectProvider
+            redirectUrl={
+              Platform.OS === 'web'
+                ? window.location.origin
+                : `${SCHEME_FROM_APP_JSON}://`
+            }
+            storageOptions={{
+              asyncStorage: AsyncStorage,
+            }}>
+            <View style={styles.container}>
+              <Walletconnect />
+            </View>
+          </WalletConnectProvider>
           <CustomButton onPress={orderPressed} label="PLACE ORDER" />
           <CustomButton label="RELEASE PAYMENT" />
         </View>
