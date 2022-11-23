@@ -16,9 +16,12 @@ import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
 import {useInterpolateConfig} from 'react-native-reanimated';
-//import Walletconnect from '../Checkout/web3/Walletconnect';
-//import WalletConnectProvider from '@walletconnect/react-native-dapp';
+
+import WalletConnectProvider from '@walletconnect/react-native-dapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Walletconnect from '../Checkout/web3/Walletconnect';
+
 import Web3 from 'web3';
 const SCHEME_FROM_APP_JSON = 'walletconnect-ecomo';
 export default function CheckoutPayment({navigation, route}) {

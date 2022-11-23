@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
-//import {useWalletConnect} from '@walletconnect/react-native-dapp';
+import {useWalletConnect} from '@walletconnect/react-native-dapp';
 
 const shortenAddress = address => {
   return `${address.slice(0, 6)}...${address.slice(
@@ -17,30 +17,30 @@ function Button({onPress, label}) {
   );
 }
 
-// export default function Walletconnect() {
-//   const connector = useWalletConnect();
+export default function Walletconnect() {
+  const connector = useWalletConnect();
 
-//   const connectWallet = React.useCallback(() => {
-//     return connector.connect();
-//   }, [connector]);
+  const connectWallet = React.useCallback(() => {
+    return connector.connect();
+  }, [connector]);
 
-//   const killSession = React.useCallback(() => {
-//     return connector.killSession();
-//   }, [connector]);
+  const killSession = React.useCallback(() => {
+    return connector.killSession();
+  }, [connector]);
 
-//   return (
-//     <>
-//       {!connector.connected ? (
-//         <Button onPress={connectWallet} label="Connect a wallet" />
-//       ) : (
-//         <>
-//           <Text>{shortenAddress(connector.accounts[0])}</Text>
-//           <Button onPress={killSession} label="Log out" />
-//         </>
-//       )}
-//     </>
-//   );
-// }
+  return (
+    <>
+      {!connector.connected ? (
+        <Button onPress={connectWallet} label="Connect a wallet" />
+      ) : (
+        <>
+          <Text>{shortenAddress(connector.accounts[0])}</Text>
+          <Button onPress={killSession} label="Log out" />
+        </>
+      )}
+    </>
+  );
+}
 
 const styles = StyleSheet.create({
   button: {
