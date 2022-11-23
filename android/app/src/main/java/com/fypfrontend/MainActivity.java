@@ -2,7 +2,7 @@ package com.fypfrontend;
 
 
 import com.facebook.react.ReactActivity;
-
+import net.rhogan.rnsecurerandom.RNSecureRandomPackage;
 
 public class MainActivity extends ReactActivity {
 
