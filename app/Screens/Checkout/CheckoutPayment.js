@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {appColors} from '../../utils/appColors';
 import axios from 'axios';
 import CustomButton from '../../Components/CustomButton';
-import {useInterpolateConfig} from 'react-native-reanimated';
+//import {useInterpolateConfig} from 'react-native-reanimated';
 
 import WalletConnectProvider from '@walletconnect/react-native-dapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,6 +24,7 @@ import Walletconnect from '../Checkout/web3/Walletconnect';
 
 import Web3 from 'web3';
 const SCHEME_FROM_APP_JSON = 'walletconnect-ecomo';
+
 export default function CheckoutPayment({navigation, route}) {
   // const connector = useWalletConnect();
   // const [message, setMessage] = React.useState<string>('Loading...');
@@ -58,7 +59,7 @@ export default function CheckoutPayment({navigation, route}) {
       .catch(function (error) {
         console.log(error);
       });
-    useInterpolateConfig;
+    //useInterpolateConfig;
   };
   return (
     <Container
