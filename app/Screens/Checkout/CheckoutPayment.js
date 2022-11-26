@@ -23,14 +23,20 @@ import Web3 from 'web3';
 
 import Walletconnect from './web3connection/Walletconnect';
 const SCHEME_FROM_APP_JSON = 'walletconnect-ecomo';
+/////
+
+//
+
 
 export default function CheckoutPayment({navigation, route}) {
   const web3 = new Web3(
     'https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka',
   );
-  const newWallet = web3.eth.accounts.wallet.create(1);
-  const newAccount = newWallet[0];
-  console.log(newAccount);
+  // const newWallet = web3.eth.accounts.wallet.create(1);
+  // const newAccount = newWallet[0];
+  // console.log(newAccount);
+
+
   const orderPressed = () => {
     axios
       .post('/user', {
@@ -85,6 +91,7 @@ export default function CheckoutPayment({navigation, route}) {
 
         <View style={{paddingBottom: 50}}>
           <WalletConnectProvider
+        
             redirectUrl={
               Platform.OS === 'web'
                 ? window.location.origin
